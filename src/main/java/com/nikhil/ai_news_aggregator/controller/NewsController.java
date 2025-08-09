@@ -21,6 +21,6 @@ public class NewsController {
 
     @GetMapping("/news") // 4. Maps GET requests for /api/news to this method
     public List<Article> getNews() {
-        return newsService.fetchNews(); // 5. Calls the service and returns the data
+        return newsService.fetchAndSaveNews(); // 5. Calls the service and returns the data
     }
 }
