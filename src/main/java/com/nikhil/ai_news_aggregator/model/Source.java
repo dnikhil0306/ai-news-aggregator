@@ -1,5 +1,6 @@
 package com.nikhil.ai_news_aggregator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
@@ -17,6 +18,7 @@ import lombok.Data;
         "url"
 })
 @Data
+@JsonIgnoreProperties("id")
 public class Source {
 
     @JsonProperty("id")

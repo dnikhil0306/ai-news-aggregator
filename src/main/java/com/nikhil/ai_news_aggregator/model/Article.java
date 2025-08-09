@@ -1,5 +1,6 @@
 package com.nikhil.ai_news_aggregator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,35 +13,37 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "articles") // Explicitly name the table
+@Table(name = "articles")
+@JsonIgnoreProperties("id")
 public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // This is our own database ID, not from the API
+    private Long id;
 
     @JsonProperty("title")
     private String title;
 
     @JsonProperty("description")
-    @Column(length = 1000) // Set a max length for the description
+    @Column(length = 1000)
     private String description;
 
     @JsonProperty("content")
-    @Column(length = 4000) // Set a max length for the content
+    @Column(length = 4000)
     private String content;
 
     @JsonProperty("url")
-    @Column(unique = true) // Ensure we don't save the same article twice
+    @Column(unique = true, length = 1024) // <-- UPDATED THIS LINE
     private String url;
 
     @JsonProperty("image")
+    @Column(length = 1024) // <-- UPDATED THIS LINE
     private String image;
 
     @JsonProperty("publishedAt")
     private String publishedAt;
 
     @JsonProperty("source")
-    @Transient // Tells the database to ignore this field
+    @Transient
     private Source source;
 }
