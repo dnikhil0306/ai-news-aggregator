@@ -1,56 +1,46 @@
 package com.nikhil.ai_news_aggregator.model;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-        "id",
-        "title",
-        "description",
-        "content",
-        "url",
-        "image",
-        "publishedAt",
-        "source"
-})
 @Data
+@Entity
+@Table(name = "articles") // Explicitly name the table
 public class Article {
 
-    @JsonProperty("id")
-    public String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // This is our own database ID, not from the API
+
     @JsonProperty("title")
-    public String title;
+    private String title;
+
     @JsonProperty("description")
-    public String description;
+    @Column(length = 1000) // Set a max length for the description
+    private String description;
+
     @JsonProperty("content")
-    public String content;
+    @Column(length = 4000) // Set a max length for the content
+    private String content;
+
     @JsonProperty("url")
-    public String url;
+    @Column(unique = true) // Ensure we don't save the same article twice
+    private String url;
+
     @JsonProperty("image")
-    public String image;
+    private String image;
+
     @JsonProperty("publishedAt")
-    public String publishedAt;
+    private String publishedAt;
+
     @JsonProperty("source")
-    public Source source;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
+    @Transient // Tells the database to ignore this field
+    private Source source;
 }
