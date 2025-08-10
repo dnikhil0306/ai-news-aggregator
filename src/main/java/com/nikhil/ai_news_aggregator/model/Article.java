@@ -33,11 +33,11 @@ public class Article {
     private String content;
 
     @JsonProperty("url")
-    @Column(unique = true, length = 1024) // <-- UPDATED THIS LINE
+    @Column(unique = true, length = 1024)
     private String url;
 
     @JsonProperty("image")
-    @Column(length = 1024) // <-- UPDATED THIS LINE
+    @Column(length = 1024)
     private String image;
 
     @JsonProperty("publishedAt")
